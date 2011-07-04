@@ -103,6 +103,7 @@ function template_html_above()
 	echo '
 	<script type="text/javascript" src="', $settings['default_theme_url'], '/scripts/script.js?fin20"></script>
 	<script type="text/javascript" src="', $settings['theme_url'], '/scripts/theme.js?fin20"></script>
+        <script type="text/javascript" src="', $settings['theme_url'], '/scripts/AC_RunActiveContent.js"></script>
 	<script type="text/javascript"><!-- // --><![CDATA[
 		var smf_theme_url = "', $settings['theme_url'], '";
 		var smf_default_theme_url = "', $settings['default_theme_url'], '";
@@ -175,7 +176,41 @@ echo '
 	 <div id="header">
 		  <div id="head-l">
 				 <div id="head-r">
-					  <div id="userarea" class="smalltext">';
+					  
+							<div id="searcharea">
+				<form action="', $scripturl, '?action=search2" method="post" accept-charset="', $context['character_set'], '">
+					  <input class="inputbox" type="text" name="search" value="', $txt['search'], '..." onfocus="this.value = \'\';" onblur="if(this.value==\'\') this.value=\'', $txt['search'], '...\';" /> ';
+
+									// Search within current topic?
+									if (!empty($context['current_topic']))
+									echo '
+										<input type="hidden" name="topic" value="', $context['current_topic'], '" />';
+
+									// If we're on a certain board, limit it to this board ;).
+									elseif (!empty($context['current_board']))
+									echo '
+										<input type="hidden" name="brd[', $context['current_board'], ']" value="', $context['current_board'], '" />';
+
+							echo '
+								</form>
+							</div>';
+					echo '
+				 <div id="logo">
+				<a href="'.$scripturl.'" title=""></a>
+			 </div>';
+			 echo "
+	 </div>
+  </div>
+</div>
+		  <div id='toolbar'>
+		  ",template_menu(),"
+		 </div>
+
+                 <div id='banner'>
+                 NOTHING HERE FOR NOW
+                 </div><!-- end of banner -->
+
+                 <div id='userarea' class='smalltext'>";
 						if ($context['user']['is_logged'])
 			{
 						if (!empty($context['user']['avatar']))
@@ -204,45 +239,21 @@ echo '
 					<input type="hidden" name="hash_passwrd" value="" />
 				</form>', $context['current_time'],'<br />';
 			  }
+
 		  echo '
-	  </div>
-							<div id="searcharea">
-				<form action="', $scripturl, '?action=search2" method="post" accept-charset="', $context['character_set'], '">
-					  <input class="inputbox" type="text" name="search" value="', $txt['search'], '..." onfocus="this.value = \'\';" onblur="if(this.value==\'\') this.value=\'', $txt['search'], '...\';" /> ';
+	  </div><!-- End of userarea -->';
 
-									// Search within current topic?
-									if (!empty($context['current_topic']))
-									echo '
-										<input type="hidden" name="topic" value="', $context['current_topic'], '" />';
+                  
 
-									// If we're on a certain board, limit it to this board ;).
-									elseif (!empty($context['current_board']))
-									echo '
-										<input type="hidden" name="brd[', $context['current_board'], ']" value="', $context['current_board'], '" />';
+		echo'	<div id="bodyarea">';
+			 theme_linktree();
 
-							echo '
-								</form>
-							</div>';
-
-						  // Show a random news item? (or you could pick one from news_lines...)
+                // Show a random news item? (or you could pick one from news_lines...)
 						  if (!empty($settings['enable_news']))
 		  {
 							 echo '<div id="news">
-							<br /><b>', $txt['news'], ':</b> ', $context['random_news_line'], '</div>';
+							<b>', $txt['news'], ':</b> ', $context['random_news_line'], '</div>';
 		  }
-					echo '
-				 <div id="logo">
-				<a href="'.$scripturl.'" title=""></a>
-			 </div>';
-			 echo '
-	 </div>
-  </div>
-</div>
-		  <div id="toolbar">
-		  ',template_menu(),'
-		 </div>
-			<div id="bodyarea">';
-			 theme_linktree();
 }
 
 function template_body_below()
@@ -274,7 +285,7 @@ function template_body_below()
 		<p>', $txt['page_created'], $context['load_time'], $txt['seconds_with'], $context['load_queries'], $txt['queries'], '</p>';
 
 	echo '
-				 </div>
+				 </div><!-- end of frame DIV -->
 			  </div>
 		  </div>
 	  </div>
@@ -287,7 +298,18 @@ function template_html_below()
 	global $context, $settings, $options, $scripturl, $txt, $modSettings;
 
 	echo '
-</div>
+</div>';
+
+        echo "<script type=\"text/javascript\">
+var gaJsHost = ((\"https:\" == document.location.protocol) ? \"https://ssl.\" : \"http://www.\");
+document.write(unescape(\"%3Cscript src='\" + gaJsHost + \"google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E\"));
+</script>
+<script type=\"text/javascript\">
+var pageTracker = _gat._getTracker(\"UA-7845577-1\");
+pageTracker._trackPageview();
+</script>";
+
+        echo'
 </body></html>';
 }
 
