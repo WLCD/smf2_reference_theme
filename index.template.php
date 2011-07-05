@@ -82,7 +82,7 @@ function template_html_above()
 	// Show right to left and the character set for ease of translating.
 	echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"', $context['right_to_left'] ? ' dir="rtl"' : '', '>
-<head>';
+    <head>';
 
 	// The ?fin20 part of this link is just here to make sure browsers don't cache it wrongly.
 	echo '
@@ -103,7 +103,6 @@ function template_html_above()
 	echo '
 	<script type="text/javascript" src="', $settings['default_theme_url'], '/scripts/script.js?fin20"></script>
 	<script type="text/javascript" src="', $settings['theme_url'], '/scripts/theme.js?fin20"></script>
-        <script type="text/javascript" src="', $settings['theme_url'], '/scripts/AC_RunActiveContent.js"></script>
 	<script type="text/javascript"><!-- // --><![CDATA[
 		var smf_theme_url = "', $settings['theme_url'], '";
 		var smf_default_theme_url = "', $settings['default_theme_url'], '";
@@ -163,121 +162,127 @@ function template_html_above()
 	echo $context['html_headers'];
 
 	echo '
-</head>
-<body>';
+    </head>
+    <body>';
+
+        echo '
+        <div id="top">
+            <div id="header">
+		  <div id="head-l">
+                     <div id="head-r">
+                        <div id="searcharea">
+                            <form action="', $scripturl, '?action=search2" method="post" accept-charset="', $context['character_set'], '">
+                                <input class="inputbox" type="text" name="search" value="', $txt['search'], '..." onfocus="this.value = \'\';" onblur="if(this.value==\'\') this.value=\'', $txt['search'], '...\';" /> ';
+                                                // Search within current topic?
+                                                if (!empty($context['current_topic']))
+                                                echo '
+                                                        <input type="hidden" name="topic" value="', $context['current_topic'], '" />';
+
+                                                // If we're on a certain board, limit it to this board ;).
+                                                elseif (!empty($context['current_board']))
+                                                echo '
+                                            <input type="hidden" name="brd[', $context['current_board'], ']" value="', $context['current_board'], '" />';
+
+                                                echo '
+                            </form>
+                        </div><!-- end of searcharea -->';
+                echo '
+                        <div id="logo">
+                            <a href="'.$scripturl.'" title=""></a>
+                        </div><!-- end of logo -->
+                        <div id="toplinks">
+                            <p class="top_links">
+                                <a href="http://www.gigabyte.fr"><strong>GIGABYTE</strong></a> | <a href="http://donnees.gigabyte.fr/5Garantie/methode.php" style="color: #1E90FF; font-weight: bold;">Garantie 5 ans</a> | <a href="http://www.facebook.com/pages/GIGABYTE-France/230063614944" target="_blank"><img class="sns" src="http://donnees.gigabyte.fr/forum/img/fb.png" alt=""/></a> <a href="http://twitter.com/gigabytefr" target="_blank"><img class="sns" src="http://donnees.gigabyte.fr/forum/img/twt.png" alt=""/></a>
+                            </p>
+                        </div><!--end of top links -->';
+			 echo "
+                     </div><!-- end of head-r -->
+                  </div><!-- end of head-l -->
+            </div><!-- end of header -->
+            <div id='toolbar'>
+            ",template_menu(),"
+            </div>
+         </div> <!-- end of top -->";
 }
 
 function template_body_above()
 {
-	global $context, $settings, $options, $scripturl, $txt, $modSettings;
+    global $context, $settings, $options, $scripturl, $txt, $modSettings;
 
-echo '
-<div id="wrapper">
-	 <div id="header">
-		  <div id="head-l">
-				 <div id="head-r">
-					  
-							<div id="searcharea">
-				<form action="', $scripturl, '?action=search2" method="post" accept-charset="', $context['character_set'], '">
-					  <input class="inputbox" type="text" name="search" value="', $txt['search'], '..." onfocus="this.value = \'\';" onblur="if(this.value==\'\') this.value=\'', $txt['search'], '...\';" /> ';
+    echo '
+         <div id="wrapper">';
+             echo "
+             <!-- <div id='banner'>
+                     NOTHING HERE FOR NOW
+                  </div><!-- end of banner -->
+             <div id='userarea' class='smalltext'>";
+                    if ($context['user']['is_logged'])
+                    {
+                    if (!empty($context['user']['avatar']))
+                    echo '
+                <div id="my-avatar" class="clearfix">', $context['user']['avatar']['image'], '</div>';
+                    echo '
+                     <ul class="reset">
+                         <li><b>', $txt['hello_member'], ' ', $context['user']['name'], '</b></li>';
+                    echo '
+                         <li><a href="', $scripturl, '?action=unread">', $txt['unread_since_visit'], '</a></li>
+                         <li><a href="', $scripturl, '?action=unreadreplies">', $txt['show_unread_replies'], '</a></li>
+                         <li>', $context['current_time'],'</li>
+                     </ul>';
+                     }
 
-									// Search within current topic?
-									if (!empty($context['current_topic']))
-									echo '
-										<input type="hidden" name="topic" value="', $context['current_topic'], '" />';
+                    // Otherwise they're a guest - this time ask them to either register or login - lazy bums...
+                    else
+                    {
+                    echo sprintf($txt['welcome_guest'], $txt['guest_title']);
+                    echo '
+                              <script language="JavaScript" type="text/javascript" src="', $settings['default_theme_url'], '/scripts/sha1.js"></script>
+                              <form action="', $scripturl, '?action=login2" method="post" accept-charset="', $context['character_set'], '" style="margin: 4px 0;"', empty($context['disable_login_hashing']) ? ' onsubmit="hashLoginPassword(this, \'' . $context['session_id'] . '\');"' : '', '>
+                                    <input type="text" name="user" class="userlog"  size="10" />
+                                    <input type="password" name="passwrd" class="userlog"  size="10" />
+                                    <input type="submit" value="', $txt['login'], '" class="button_submit" />
+                                    <input type="hidden" name="hash_passwrd" value="" />
+                            </form>', $context['current_time'],'<br />';
+                      }
 
-									// If we're on a certain board, limit it to this board ;).
-									elseif (!empty($context['current_board']))
-									echo '
-										<input type="hidden" name="brd[', $context['current_board'], ']" value="', $context['current_board'], '" />';
+              echo '
+      </div><!-- End of userarea -->';
 
-							echo '
-								</form>
-							</div>';
-					echo '
-				 <div id="logo">
-				<a href="'.$scripturl.'" title=""></a>
-			 </div>';
-			 echo "
-	 </div>
-  </div>
-</div>
-		  <div id='toolbar'>
-		  ",template_menu(),"
-		 </div>
 
-                 <div id='banner'>
-                 NOTHING HERE FOR NOW
-                 </div><!-- end of banner -->
 
-                 <div id='userarea' class='smalltext'>";
-						if ($context['user']['is_logged'])
-			{
-						if (!empty($context['user']['avatar']))
-					  echo '
-							<div id="my-avatar" class="clearfix">', $context['user']['avatar']['image'], '</div>';
-							 echo '
-						 <ul class="reset">
-							 <li><b>', $txt['hello_member'], ' ', $context['user']['name'], '</b></li>';
-							  echo '
-							 <li><a href="', $scripturl, '?action=unread">', $txt['unread_since_visit'], '</a></li>
-							 <li><a href="', $scripturl, '?action=unreadreplies">', $txt['show_unread_replies'], '</a></li>
-							  <li>', $context['current_time'],'</li>
-						 </ul>';
-			 }
+              echo'
+      <div id="bodyarea">';
+     theme_linktree();
 
-			// Otherwise they're a guest - this time ask them to either register or login - lazy bums...
-			else
-			{
-			echo sprintf($txt['welcome_guest'], $txt['guest_title']);
-			echo '
-				  <script language="JavaScript" type="text/javascript" src="', $settings['default_theme_url'], '/scripts/sha1.js"></script>
-				  <form action="', $scripturl, '?action=login2" method="post" accept-charset="', $context['character_set'], '" style="margin: 4px 0;"', empty($context['disable_login_hashing']) ? ' onsubmit="hashLoginPassword(this, \'' . $context['session_id'] . '\');"' : '', '>
-					<input type="text" name="user" class="userlog"  size="10" />
-					<input type="password" name="passwrd" class="userlog"  size="10" />
-					<input type="submit" value="', $txt['login'], '" class="button_submit" />
-					<input type="hidden" name="hash_passwrd" value="" />
-				</form>', $context['current_time'],'<br />';
-			  }
-
-		  echo '
-	  </div><!-- End of userarea -->';
-
-                  
-
-		echo'	<div id="bodyarea">';
-			 theme_linktree();
-
-                // Show a random news item? (or you could pick one from news_lines...)
-						  if (!empty($settings['enable_news']))
-		  {
-							 echo '<div id="news">
-							<b>', $txt['news'], ':</b> ', $context['random_news_line'], '</div>';
-		  }
+    // Show a random news item? (or you could pick one from news_lines...)
+    if (!empty($settings['enable_news']))
+    {
+        echo '
+        <div id="news">
+            <b>', $txt['news'], ':</b> ', $context['random_news_line'], '
+        </div><!-- end of news -->';
+    }
 }
 
 function template_body_below()
 {
-	global $context, $settings, $options, $scripturl, $txt, $modSettings;
+    global $context, $settings, $options, $scripturl, $txt, $modSettings;
 
-			echo '
-			  </div>';
+    echo '
+      </div>';
 
-				// Show the "Powered by" and "Valid" logos, as well as the copyright. Remember, the copyright must be somewhere!
-			echo '
-				<div id="footer">
-					<div id="foot-l">
-						<div id="foot-r">
-							<div id="footerarea">
-								 <div id="footer_section">
-									  <div class="frame">
-		<ul class="reset">
-			<li class="copyright">', theme_copyright(), '</li>
-			<li><strong>Reference</strong> by, <a href="http://www.jpr62.com/theme/" target="_blank" class="new_win" title=""><span>Crip</span></a></li>
-			<li><a id="button_xhtml" href="http://validator.w3.org/check?uri=referer" target="_blank" class="new_win" title="', $txt['valid_xhtml'], '"><span>', $txt['xhtml'], '</span></a></li>
-			', !empty($modSettings['xmlnews_enable']) && (!empty($modSettings['allow_guestAccess']) || $context['user']['is_logged']) ? '<li><a id="button_rss" href="' . $scripturl . '?action=.xml;type=rss" class="new_win"><span>' . $txt['rss'] . '</span></a></li>' : '', '
-			<li class="last"><a id="button_wap2" href="', $scripturl , '?wap2" class="new_win"><span>', $txt['wap2'], '</span></a></li>
-		</ul>';
+            // Show the "Powered by" and "Valid" logos, as well as the copyright. Remember, the copyright must be somewhere!
+    echo '
+            <div id="footer">
+                <div id="foot-l">
+                    <div id="foot-r">
+                        <div id="footerarea">
+                            <div id="footer_section">
+                                <div class="frame">
+                                    <ul class="reset">
+                                        <li class="copyright">', theme_copyright(), '</li>
+                                        <li>&copy 2011 GIGABYTE TECHNOLOGY France, All rights reserved. Any unauthorized use is strictly prohibited</li>
+                                    </ul>';
 
 	// Show the load time?
 	if ($context['show_load_time'])
@@ -286,11 +291,34 @@ function template_body_below()
 
 	echo '
 				 </div><!-- end of frame DIV -->
-			  </div>
-		  </div>
-	  </div>
-	</div>
- </div>';
+                            </div><!-- end of footer section -->
+                        </div><!-- end of footerarea -->
+                    </div><!-- end of foot-r -->
+                </div><!-- end of foot-l -->
+            </div><!-- end of footer -->';
+
+//here we had some DIV for special occasions, easy to modify, for style, see CSS file
+$month = date('m');
+
+switch($month)
+{
+
+ case 7 :
+
+     $day == date('d');
+
+     if($day == 14)
+     echo '<div id="national"></div>
+		<div id="national_corner_right"></div>';
+     break;
+
+ case 12 :
+     echo '<div id="christmas"></div>
+		<div id="christmas_corner_left"</div>
+		<div id="christmas_corner_right"></div>';
+     break;
+}
+
 }
 
 function template_html_below()
@@ -298,19 +326,21 @@ function template_html_below()
 	global $context, $settings, $options, $scripturl, $txt, $modSettings;
 
 	echo '
-</div>';
+        </div><!-- end of wrapper -->';
 
-        echo "<script type=\"text/javascript\">
-var gaJsHost = ((\"https:\" == document.location.protocol) ? \"https://ssl.\" : \"http://www.\");
-document.write(unescape(\"%3Cscript src='\" + gaJsHost + \"google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E\"));
-</script>
-<script type=\"text/javascript\">
-var pageTracker = _gat._getTracker(\"UA-7845577-1\");
-pageTracker._trackPageview();
-</script>";
+        echo "
+        <script type=\"text/javascript\">
+            var gaJsHost = ((\"https:\" == document.location.protocol) ? \"https://ssl.\" : \"http://www.\");
+            document.write(unescape(\"%3Cscript src='\" + gaJsHost + \"google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E\"));
+        </script>
+        <script type=\"text/javascript\">
+            var pageTracker = _gat._getTracker(\"UA-7845577-1\");
+            pageTracker._trackPageview();
+        </script>";
 
         echo'
-</body></html>';
+    </body>
+</html>';
 }
 
 // Show a linktree. This is that thing that shows "My Community | General Category | General Discussion"..
@@ -327,14 +357,14 @@ function theme_linktree($force_show = false)
 		$context['linktree'] = array_reverse($context['linktree'], true);
 
 	echo '
-	<div class="navigate_section">
-		<ul>';
+	 <div class="navigate_section">
+            <ul>';
 
 	// Each tree item has a URL and name. Some may have extra_before and extra_after.
 	foreach ($context['linktree'] as $link_num => $tree)
 	{
 		echo '
-			<li', ($link_num == count($context['linktree']) - 1) ? ' class="last"' : '', '>';
+                    <li', ($link_num == count($context['linktree']) - 1) ? ' class="last"' : '', '>';
 
 		// Don't show a separator for the last one (RTL mode)
 		if ($link_num != count($context['linktree']) - 1 && $context['right_to_left'])
@@ -357,11 +387,11 @@ function theme_linktree($force_show = false)
 			echo '&nbsp;&#187;';
 
 		echo '
-			</li>';
+                    </li>';
 	}
 	echo '
-		</ul>
-	</div>';
+            </ul>
+	</div><!-- end of navigate_section -->';
 
 	$shown_linktree = true;
 }
@@ -371,26 +401,25 @@ function template_menu()
 {
 	global $context, $settings, $options, $scripturl, $txt;
 
-	echo '
-		<div id="topnav">
-			<ul>';
+	echo '<div id="topnav">
+                    <ul>';
 
 	foreach ($context['menu_buttons'] as $act => $button)
 	{
 		echo '
-				<li id="button_', $act, '">
-					<a class="', $button['active_button'] ? 'active ' : '', '" href="', $button['href'], '"', isset($button['target']) ? ' target="' . $button['target'] . '"' : '', '>', $button['title'], '</a>';
+                        <li id="button_', $act, '">
+                            <a class="', $button['active_button'] ? 'active ' : '', '" href="', $button['href'], '"', isset($button['target']) ? ' target="' . $button['target'] . '"' : '', '>', $button['title'], '</a>';
 
 		if (!empty($button['sub_buttons']))
 		{
 			echo '
-					<ul>';
+                            <ul>';
 
 			foreach ($button['sub_buttons'] as $childbutton)
 			{
 				echo '
-						<li>
-							<a href="', $childbutton['href'], '"', isset($childbutton['target']) ? ' target="' . $childbutton['target'] . '"' : '', '>', $childbutton['title'], !empty($childbutton['sub_buttons']) ? '...' : '', '</a>';
+                                <li>
+                                    <a href="', $childbutton['href'], '"', isset($childbutton['target']) ? ' target="' . $childbutton['target'] . '"' : '', '>', $childbutton['title'], !empty($childbutton['sub_buttons']) ? '...' : '', '</a>';
 
 				// 3rd level menus :)
 				if (!empty($childbutton['sub_buttons']))
@@ -405,21 +434,21 @@ function template_menu()
 								</li>';
 
 					echo '
-						</ul>';
+                                        </ul>';
 				}
 
 				echo '
-						</li>';
+                                </li>';
 			}
 			echo '
-					</ul>';
+                            </ul>';
 		}
 		echo '
-				</li>';
+                        </li>';
 	}
 
 	echo '
-			</ul>
+                    </ul>
 		</div>';
 }
 

@@ -55,6 +55,13 @@ td, th, tr
 	color: #555;
 }
 
+div#top
+{
+    width: 100%;
+    background-color: #393333;
+    color: white;
+}
+
 /* This division wraps the entire forum when a forum width is set. */
 div#wrapper
 {
@@ -1371,7 +1378,7 @@ h3, h4
 {
 	background: url(../images/theme/main_block.png) no-repeat 100% -820px;
 	display: block;
-	padding: 10px 0 0 0;
+	padding: 15px 0 0 0;
 }
 #footer_section ul li, #footer_section p
 {
@@ -3538,25 +3545,44 @@ ul.basic_helplist
         margin: 0 auto;
         width: 970px;
 }
-/*
-#head-r {
-	height: 156px;
-	background: url(../images/img/headerr.png) 100% 0 no-repeat;
-}
 
-#head-l {
-	background: url(../images/img/headerl.png) 0 0 no-repeat;
-}
-*/
+/* If we want to add sides customisation to our header */
+#head-r {}
+
+#head-l {}
+
 #logo a {
 	position: absolute;
-	/*top: 5px;*/
+	top: 0px;
 	left: 20px;
 	display: block;
 	width: 182px;
 	height: 52px;
 	cursor: pointer;
 	background: url(../images/img/logo.jpg) no-repeat;
+        float: left;
+}
+
+#toplinks {
+margin-left : 772px;
+margin-top: 25px;
+vertical-align: middle;
+}
+
+/* Top links (social networks, focus pages, etc...) */
+
+.top_links{
+	display : inline;	
+	vertical-align : 30px;
+}
+
+.top_links a {
+    color: white;
+}
+
+.sns {
+	width : 20px;
+	vertical-align : -7px;  /*this allows us to center the images with the text*/
 }
 
 #userarea {
@@ -3571,8 +3597,8 @@ ul.basic_helplist
         margin-top : 0px;
         margin-bottom: 0px;
         margin-left: 6px;
-        border-bottom: 1px solid gray;
-        border-top: 1px solid gray;
+        padding-top: 4px;
+        border-bottom: 1px solid #C4C4C4;
 }
 
 #userarea a:link, #userarea a:visited {
@@ -3592,9 +3618,9 @@ ul.basic_helplist
 
 #my-avatar {
 	float: left;
-	padding-top: 2px;
-	padding-bottom: 2px;
-	padding-left: 0px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	padding-left: 6px;
 	padding-right: 10px;
 }
 
@@ -3648,14 +3674,15 @@ ul.basic_helplist
         width: 970px;
 	padding: 0;
 	height: 42px;
-	background: #5e5e5e url(../images/img/topnav_bg.gif) repeat-x;
+	background: #393333 url(../images/img/topnav_bg.gif) repeat-x;
 }
 #topnav {
 	position: relative;
 	height: 42px;
+        width: 970px;
 	z-index: 1000;
 	padding: 0;
-	margin: 0;
+	margin: 0 auto;
 }
 #topnav ul {
 	margin: 0;
@@ -3769,4 +3796,74 @@ ul.basic_helplist
 #footerarea a:hover {
 	color: #1E5D96;
 	text-decoration: none;
+}
+
+/* Christmas Decoration only available on december */
+
+div#christmas
+{
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	background: url(../images/xmas_light_horiz.png) repeat-x;
+	height: 30px;
+	width: 100%;
+	z-index: 10;
+}
+
+div#christmas_corner_left
+{
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	background: url(../images/xmas_corner_left.png) no-repeat;
+	height: 200px;
+	width: 200px;
+	z-index: 5;
+}
+
+div#christmas_corner_right
+{
+	position: fixed;
+	bottom: 0px;
+	right: 0px;
+	background: url(../images/xmas_corner_right.png) no-repeat;
+	height: 200px;
+	width: 200px;
+	z-index: 5;
+}
+
+/* National holiday Decoration only available on 14th of july (for france) */
+
+div#national
+{
+	position: fixed;
+	top: -60px;
+	left: 0px;
+	background: url(../images/french_flag.png) no-repeat;
+	height: 256px;
+	width: 100%;
+	z-index: 10;
+}
+
+/*div#national_corner_left
+{
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	background: url(../images/french_flag.png) no-repeat;
+	height: 256px;
+	width: 256px;
+	z-index: 5;
+}
+*/
+div#national_corner_right
+{
+	position: fixed;
+	bottom: 0px;
+	right: 0px;
+	background: url(../images/national_holiday.png) no-repeat;
+	height: 300px;
+	width: 300px;
+	z-index: 5;
 }
