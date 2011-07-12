@@ -280,8 +280,7 @@ function template_body_below()
                             <div id="footer_section">
                                 <div class="frame">
                                     <ul class="reset">
-                                        <li class="copyright">', theme_copyright(), '</li>
-                                        <li>&copy 2011 GIGABYTE TECHNOLOGY France, All rights reserved. Any unauthorized use is strictly prohibited</li>
+                                        <li>Les droits de propriété intellectuelle, et ce, incluant copyright et marques appartiennent ou permettent à GIGA-BYTE TECHNOLOGY CO., LTD. de les exploiter.<br />Toute utilisation tierce sans autorisation préalable n\'est pas permise.</li>
                                     </ul>';
 
 	// Show the load time?
