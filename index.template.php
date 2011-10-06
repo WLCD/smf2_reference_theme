@@ -212,8 +212,9 @@ function template_body_above()
     echo '
          <div id="wrapper">';
              echo "
-             <!-- <div id='banner'>
-                     NOTHING HERE FOR NOW
+             <div id=\"banner\">
+<iframe src=\"http://donnees.gigabyte.fr/forum/flash/banniere.html\" width=\"970\" height=\"270\" border=\"0\" frameborder=\"0\"></iframe>
+
                   </div><!-- end of banner -->
              <div id='userarea' class='smalltext'>";
                     if ($context['user']['is_logged'])
