@@ -192,9 +192,7 @@ function template_html_above()
                         </div><!-- end of logo -->
                         <div id="toplinks">
                             <p class="top_links">
-                                <a href="http://www.gigabyte.fr"><strong>GIGABYTE</strong></a> | 
-                                <a href="http://donnees.gigabyte.fr/5Garantie/methode.php" style="color: #1E90FF; font-weight: bold;">Garantie 5 ans</a> | 
-                                <a href="http://www.facebook.com/pages/GIGABYTE-France/230063614944" target="_blank"><img class="sns" src="http://donnees.gigabyte.fr/forum/img/fb.png" alt=""/></a> <a href="http://twitter.com/gigabytefr" target="_blank"><img class="sns" src="http://donnees.gigabyte.fr/forum/img/twt.png" alt=""/></a> <a href="//plus.google.com/101340414220367217339?prsrc=3" rel="publisher" style="text-decoration:none;"><img src="http://donnees.gigabyte.fr/forum/img/gplus.png" alt="GIGABYTE France" class="sns" style="width:19px; vertical-align : -6px"/></a>
+                                <a href="http://www.gigabyte.fr"><strong>GIGABYTE</strong></a> | <a href="http://donnees.gigabyte.fr/5Garantie/methode.php" style="color: #1E90FF; font-weight: bold;">Garantie 5 ans</a> | <a href="http://www.facebook.com/pages/GIGABYTE-France/230063614944" target="_blank"><img class="sns" src="http://donnees.gigabyte.fr/forum/img/fb.png" alt=""/></a> <a href="http://twitter.com/gigabytefr" target="_blank"><img class="sns" src="http://donnees.gigabyte.fr/forum/img/twt.png" alt=""/></a>
                             </p>
                         </div><!--end of top links -->';
 			 echo "
@@ -214,9 +212,17 @@ function template_body_above()
     echo '
          <div id="wrapper">';
              echo "
-             <div id=\"banner\">
-<iframe src=\"http://donnees.gigabyte.fr/forum/flash/banniere.html\" width=\"970\" height=\"270\" border=\"0\" frameborder=\"0\"></iframe>
-
+             <div id='banner'>
+                     <object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\"
+                     codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0\"
+                     width=\"970\" height=\"250\" id=\"banniere\" align=\"\">
+                          <param name=movie value=\"banniere.swf\">
+                          <param name=quality value=high>
+                          <param name=bgcolor value=#FFFFFF>
+                          <param name=wmode value=transparent>
+                          <embed wmode=\"transparent\" src=\"http://donnees.gigabyte.fr/forum/flash/banniere.swf\" quality=high bgcolor=#FFFFFF  width=\"970\" height=\"250\" name=\"banniere\" align=\"\"
+                            type=\"application/x-shockwave-flash\" pluginspage=\"http://www.macromedia.com/go/getflashplayer\"></embed>
+                        </object>
                   </div><!-- end of banner -->
              <div id='userarea' class='smalltext'>";
                     if ($context['user']['is_logged'])

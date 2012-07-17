@@ -65,7 +65,7 @@ div#top
 /* This division wraps the entire forum when a forum width is set. */
 div#wrapper
 {
-	width: 978px;
+	width: 981px;
 	margin: 0 auto;
 	padding: 0;
 }
@@ -1795,6 +1795,7 @@ p#whoisviewing
 	margin: 0;
 	padding: 0.5em;
 }
+
 /* poster and postarea + moderation area underneath */
 .post_wrapper
 {
@@ -3569,19 +3570,21 @@ ul.basic_helplist
 }
 
 #toplinks {
-margin-left : 772px;
+margin-left : 715px;
 margin-top: 25px;
 vertical-align: middle;
+/*border: 2px solid red;*/
 }
 
 /* Top links (social networks, focus pages, etc...) */
 
-.top_links{
+p.top_links {
 	display : inline;	
 	vertical-align : 30px;
+        border:
 }
 
-.top_links a {
+p.top_links a {
     color: white;
 }
 
